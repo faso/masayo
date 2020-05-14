@@ -11,8 +11,12 @@
             margin: 0;
             height: 100%;
             font-family: 'Jost', sans-serif;
-            font-size: 2em;
+            font-size: 3em;
         }
+
+        /* img {
+            height: 100%;
+        } */
 
         #currentSlide {
             display: flex;
@@ -89,10 +93,22 @@
         {
             type: 'single',
             content: {
-                type: 'image',
-                value: 'pic2.jpg'
+                type: 'text',
+                value: 'this will be about cats'
             },
             hint: 'this is a hint for myself'
+        },
+        {
+            type: 'split',
+            orientation: 'horizontal',
+            split: '25/75',
+            content: [{
+                type: 'text',
+                value: 'this is a cat'
+            }, {
+                type: 'image',
+                value: 'pic1.jpg'
+            }]
         },
         {
             type: 'split',
@@ -100,10 +116,34 @@
             split: '25/75',
             content: [{
                 type: 'text',
-                value: 'it is a cat'
+                value: 'and this is a cat'
             }, {
                 type: 'image',
                 value: 'pic1.jpg'
+            }]
+        },
+        {
+            type: 'split',
+            orientation: 'vertical',
+            split: '50/50',
+            content: [{
+                type: 'text',
+                value: 'damn'
+            }, {
+                type: 'text',
+                value: 'bruh'
+            }]
+        },
+        {
+            type: 'split',
+            orientation: 'horizontal',
+            split: '50/50',
+            content: [{
+                type: 'text',
+                value: 'that is a whole lot of'
+            }, {
+                type: 'text',
+                value: 'cats'
             }]
         }
     ];
@@ -142,11 +182,7 @@
         currentSlide.id = "";
         nextSlide.id = 'currentSlide';
 
-        console.clear();
-        if (currentIndex === (config.length - 1))
-            logLargeText('THIS IS THE LAST SLIDE');
-        else
-            logSlideInfo();
+        logSlideInfo();
     }
 
     function previousSlide() {
@@ -159,7 +195,6 @@
         currentSlide.id = "";
         previousSlide.id = 'currentSlide';
 
-        console.clear();
         logSlideInfo();
     }
 
@@ -200,7 +235,7 @@
             const item1 = document.createElement('div');
             const item2 = document.createElement('div');
 
-            if (slideConfig.split === 'equal') {
+            if (slideConfig.split === '50/50') {
                 item1.classList.add('item-50');
                 item2.classList.add('item-50');
             } else if (slideConfig.split === '75/25') {
@@ -234,6 +269,11 @@
     }
 
     function logSlideInfo() {
+        console.clear();
+
+        logLargeText(`${currentIndex + 1}/${config.length}`);
+        logLargeText('\n\n');
+
         const hint = config[currentIndex].hint;
         if (hint) {
             logLargeText('HINT: ');
@@ -241,8 +281,12 @@
             logLargeText('\n\n');
         }
 
-        logLargeText('NEXT SLIDE:');
-        logLargeText(findSlideElementByIndex(currentIndex + 1).textContent);
+        if (currentIndex + 1 === config.length)
+            logLargeText('THIS IS THE LAST SLIDE!');
+        else {
+            logLargeText('NEXT SLIDE:');
+            logLargeText(findSlideElementByIndex(currentIndex + 1).textContent);
+        }
     }
 
     function logLargeText(text) {
