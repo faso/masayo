@@ -91,7 +91,8 @@
             content: {
                 type: 'image',
                 value: 'pic2.jpg'
-            }
+            },
+            hint: 'this is a hint for myself'
         },
         {
             type: 'split',
@@ -123,35 +124,43 @@
         }
     };
 
+    function findSlideElementByIndex(index) {
+        return document.querySelectorAll(`[data-slide-order="${index}"]`)[0];
+    }
+
+    function findCurrentSlideElement() {
+        return findSlideElementByIndex(currentIndex);
+    }
+
     function nextSlide() {
         if (currentIndex === (config.length - 1))
             return;
 
-        const currentSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        const currentSlide = findCurrentSlideElement();
         currentIndex++;
-        const nextSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        const nextSlide = findCurrentSlideElement();
         currentSlide.id = "";
         nextSlide.id = 'currentSlide';
 
         console.clear();
         if (currentIndex === (config.length - 1))
-            logHint('THIS IS THE LAST SLIDE');
+            logLargeText('THIS IS THE LAST SLIDE');
         else
-            logNextSlide();
+            logSlideInfo();
     }
 
     function previousSlide() {
         if (currentIndex === 0)
             return;
 
-        const currentSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        const currentSlide = findCurrentSlideElement();
         currentIndex--;
-        const previousSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        const previousSlide = findCurrentSlideElement();
         currentSlide.id = "";
         previousSlide.id = 'currentSlide';
 
         console.clear();
-        logNextSlide();
+        logSlideInfo();
     }
 
     function generateSlides() {
@@ -224,12 +233,19 @@
         return image;
     }
 
-    function logNextSlide() {
-        logHint('NEXT SLIDE:');
-        logHint(document.querySelectorAll(`[data-slide-order="${currentIndex + 1}"]`)[0].textContent);
+    function logSlideInfo() {
+        const hint = config[currentIndex].hint;
+        if (hint) {
+            logLargeText('HINT: ');
+            logLargeText(hint);
+            logLargeText('\n\n');
+        }
+
+        logLargeText('NEXT SLIDE:');
+        logLargeText(findSlideElementByIndex(currentIndex + 1).textContent);
     }
 
-    function logHint(text) {
+    function logLargeText(text) {
         console.log("%c" + text, "font-size: 40px");
     }
 </script>
