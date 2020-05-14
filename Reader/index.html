@@ -1,0 +1,237 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>Name</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            font-family: 'Jost', sans-serif;
+            font-size: 2em;
+        }
+
+        #currentSlide {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #presentation {
+            height: 100%;
+        }
+
+        .horizontal-container {
+            flex-direction: row;
+        }
+
+        .vertical-container {
+            flex-direction: column;
+        }
+
+        .horizontal-item+.horizontal-item {
+            margin-left: 2%;
+        }
+
+        .vertical-item+.vertical-item {
+            margin-top: 2%;
+        }
+
+        .item-25 {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex: 0 25%;
+        }
+
+        .item-50 {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex: 0 50%;
+        }
+
+        .item-75 {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex: 0 75%;
+        }
+
+        .item-100 {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex: 0 100%;
+        }
+
+        .slide {
+            display: none;
+            /* margin: 2%; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="presentation">
+        <div class="slide" data-slide-order="-1">
+        </div>
+    </div>
+</body>
+
+<script>
+    const config = [
+        {
+            type: 'single',
+            content: {
+                type: 'image',
+                value: 'pic2.jpg'
+            }
+        },
+        {
+            type: 'split',
+            orientation: 'vertical',
+            split: '25/75',
+            content: [{
+                type: 'text',
+                value: 'it is a cat'
+            }, {
+                type: 'image',
+                value: 'pic1.jpg'
+            }]
+        }
+    ];
+
+    generateSlides();
+
+    let currentIndex = -1;
+    nextSlide();
+
+    document.onkeydown = function (event) {
+        switch (event.keyCode) {
+            case 37:
+                previousSlide();
+                break;
+            case 39:
+                nextSlide();
+                break;
+        }
+    };
+
+    function nextSlide() {
+        if (currentIndex === (config.length - 1))
+            return;
+
+        const currentSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        currentIndex++;
+        const nextSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        currentSlide.id = "";
+        nextSlide.id = 'currentSlide';
+
+        console.clear();
+        if (currentIndex === (config.length - 1))
+            logHint('THIS IS THE LAST SLIDE');
+        else
+            logNextSlide();
+    }
+
+    function previousSlide() {
+        if (currentIndex === 0)
+            return;
+
+        const currentSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        currentIndex--;
+        const previousSlide = document.querySelectorAll(`[data-slide-order="${currentIndex}"]`)[0];
+        currentSlide.id = "";
+        previousSlide.id = 'currentSlide';
+
+        console.clear();
+        logNextSlide();
+    }
+
+    function generateSlides() {
+        const presentation = document.getElementById('presentation');
+        for (const slideIndex in config) {
+            const newSlide = document.createElement('div');
+            newSlide.classList.add('slide');
+            newSlide.setAttribute('data-slide-order', slideIndex);
+
+            const slideConfig = config[slideIndex];
+
+            if (slideConfig.orientation === 'horizontal')
+                newSlide.classList.add('horizontal-container');
+            else
+                newSlide.classList.add('vertical-container');
+
+
+            const contentNodes = getSlideContent(slideConfig);
+            for (const node of contentNodes)
+                newSlide.appendChild(node);
+
+            presentation.appendChild(newSlide);
+        }
+    }
+
+    function getSlideContent(slideConfig) {
+        if (slideConfig.type === 'single') {
+            const item = document.createElement('div');
+            item.classList.add('item-100');
+
+            item.appendChild(
+                getSlideContentNode(slideConfig.content)
+            );
+
+            return [item];
+        } else {
+            const item1 = document.createElement('div');
+            const item2 = document.createElement('div');
+
+            if (slideConfig.split === 'equal') {
+                item1.classList.add('item-50');
+                item2.classList.add('item-50');
+            } else if (slideConfig.split === '75/25') {
+                item1.classList.add('item-75');
+                item2.classList.add('item-25');
+            } else if (slideConfig.split === '25/75') {
+                item1.classList.add('item-25');
+                item2.classList.add('item-75');
+            }
+
+            item1.appendChild(
+                getSlideContentNode(slideConfig.content[0])
+            );
+
+            item2.appendChild(
+                getSlideContentNode(slideConfig.content[1])
+            );
+
+            return [item1, item2];
+        }
+    }
+
+    function getSlideContentNode(nodeConfig) {
+        if (nodeConfig.type === 'text') {
+            return document.createTextNode(nodeConfig.value);
+        }
+
+        const image = document.createElement('img');
+        image.setAttribute('src', nodeConfig.value);
+        return image;
+    }
+
+    function logNextSlide() {
+        logHint('NEXT SLIDE:');
+        logHint(document.querySelectorAll(`[data-slide-order="${currentIndex + 1}"]`)[0].textContent);
+    }
+
+    function logHint(text) {
+        console.log("%c" + text, "font-size: 40px");
+    }
+</script>
+
+</html>
