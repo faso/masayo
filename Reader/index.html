@@ -91,12 +91,30 @@
 <script>
     const config = [
         {
+            type: 'split',
+            orientation: 'vertical',
+            split: '50/50',
+            content: [{
+                type: 'text',
+                value: 'this is masayo'
+            }, {
+                type: 'text',
+                value: 'use left/right arrows to navigate'
+            }]
+        },
+        {
             type: 'single',
             content: {
                 type: 'text',
-                value: 'this will be about cats'
+                value: 'it is a small tool for making & giving presentations'
             },
-            hint: 'this is a hint for myself'
+        },
+        {
+            type: 'single',
+            content: {
+                type: 'text',
+                value: 'you can use text'
+            },
         },
         {
             type: 'split',
@@ -104,34 +122,10 @@
             split: '25/75',
             content: [{
                 type: 'text',
-                value: 'this is a cat'
+                value: 'or images'
             }, {
                 type: 'image',
                 value: 'pic1.jpg'
-            }]
-        },
-        {
-            type: 'split',
-            orientation: 'vertical',
-            split: '25/75',
-            content: [{
-                type: 'text',
-                value: 'and this is a cat'
-            }, {
-                type: 'image',
-                value: 'pic1.jpg'
-            }]
-        },
-        {
-            type: 'split',
-            orientation: 'vertical',
-            split: '50/50',
-            content: [{
-                type: 'text',
-                value: 'damn'
-            }, {
-                type: 'text',
-                value: 'bruh'
             }]
         },
         {
@@ -140,11 +134,85 @@
             split: '50/50',
             content: [{
                 type: 'text',
-                value: 'that is a whole lot of'
+                value: 'split the slide'
             }, {
                 type: 'text',
-                value: 'cats'
+                value: 'in half'
             }]
+        },
+        {
+            type: 'split',
+            orientation: 'horizontal',
+            split: '25/75',
+            content: [{
+                type: 'text',
+                value: 'Or'
+            }, {
+                type: 'text',
+                value: '25%/75%'
+            }]
+        },
+        {
+            type: 'split',
+            orientation: 'horizontal',
+            split: '75/25',
+            content: [{
+                type: 'text',
+                value: 'Flip it'
+            }, {
+                type: 'text',
+                value: 'around'
+            }]
+        },
+        {
+            type: 'split',
+            orientation: 'vertical',
+            split: '25/75',
+            content: [{
+                type: 'text',
+                value: 'Same thing'
+            }, {
+                type: 'text',
+                value: 'vertically'
+            }]
+        },
+        {
+            type: 'split',
+            orientation: 'vertical',
+            split: '50/50',
+            content: [{
+                type: 'text',
+                value: 'Open the console (F12)'
+            }, {
+                type: 'text',
+                value: '✨'
+            }],
+            hint: "You can leave helpful hints or speech notes for yourself here!\nDetach the console and put it on a separate screen from the presentation to have it all to yourself\nYou can also see some helpful info above and below!"
+        },
+        {
+            type: 'split',
+            orientation: 'vertical',
+            split: '75/25',
+            content: [{
+                type: 'image',
+                value: 'pic3.jpg'
+            }, {
+                type: 'text',
+                value: 'hopefully this tool can be of some use to you!'
+            }]
+        },
+        {
+            type: 'split',
+            orientation: 'vertical',
+            split: '50/50',
+            content: [{
+                type: 'text',
+                value: 'learn how to use masayo at'
+            }, {
+                type: 'text',
+                value: 'mysupercooldomain.land'
+            }],
+            hint: 'or check out the source at github.com/faso/masayo!'
         }
     ];
 
